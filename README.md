@@ -1,5 +1,5 @@
 # gl-sp-frontend #
-[![version](https://img.shields.io/badge/version-1.4.3-green.svg)](https://www.npmjs.com/package/gl-w-frontend)
+[![version](https://img.shields.io/badge/version-1.0.0-green.svg)](https://www.npmjs.com/package/gl-w-frontend)
 
 ### What is this repository for? ###
 This package is a common code for SharePoint 2013/2016 using among web front-end development such as pure 

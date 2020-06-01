@@ -1,0 +1,11 @@
+.*
+**/tslink.json
+**/tsconfig.json
+**/webpack.config.js
+node_modules
+src
+test
+
+node_modules
+lib-esm
+_bundles

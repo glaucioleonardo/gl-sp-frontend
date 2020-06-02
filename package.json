@@ -33,16 +33,18 @@
   "license": "ISC",
   "homepage": "https://www.glauciosantana.com",
   "dependencies": {
+    "gl-w-frontend": "^1.4.5",
     "sp-pnp-js": "^3.0.10"
   },
   "devDependencies": {
     "@types/node": "^14.0.5",
-    "@typescript-eslint/eslint-plugin": "^3.0.2",
-    "@typescript-eslint/parser": "^3.0.2",
+    "@typescript-eslint/eslint-plugin": "^3.1.0",
+    "@typescript-eslint/eslint-plugin-tslint": "^3.1.0",
+    "@typescript-eslint/parser": "^3.1.0",
     "eslint": "^7.1.0",
     "shx": "^0.3.2",
     "ts-node": "~8.3.0",
-    "tslint": "^5.18.0",
+    "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "~3.7.5"
   }

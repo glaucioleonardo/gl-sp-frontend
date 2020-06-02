@@ -38,7 +38,8 @@ If you are using only browser version:
 ### Macro features ###
 
 * Core: Setup
-* Retrieve list items 
+* Retrieve list items
+* User permissions 
 
 Other features is going to be included  frequently.
 

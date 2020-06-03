@@ -92,3 +92,8 @@ export interface IAttachmentFileAddResult {
   file: AttachmentFile;
   data: any;
 }
+
+export interface ItemAddResult {
+  item: Item;
+  data: any;
+}

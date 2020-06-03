@@ -1,22 +1,23 @@
 {
   "name": "gl-sp-frontend",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha7",
   "description": "Common code for SharePoint 2013/2016 using among web front-end development such as pure JavaScript, ES6+ and TypeScript",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "module": "lib/esm/index.js",
   "scripts": {
     "clean": "shx rm -rf dist lib",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build-clean": "npm run clean && tsc && tsc -m es6 --outDir lib/esm",
+    "copy-assets": "copyfiles -a -u1 src/assets/** lib",
     "build": "tsc && tsc -m es6 --outDir lib/esm",
+    "production": "npm run build && npm run copy-assets",
     "fast-build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "eslint . --ext .ts"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/glaucioleonardo/gl-w-frontend.git"
+    "url": "https://github.com/glaucioleonardo/gl-sp-frontend.git"
   },
   "keywords": [
     "sharepoint",
@@ -33,7 +34,7 @@
   "license": "ISC",
   "homepage": "https://www.glauciosantana.com",
   "dependencies": {
-    "gl-w-frontend": "^1.4.5",
+    "gl-w-frontend": "^1.4.11",
     "sp-pnp-js": "^3.0.10"
   },
   "devDependencies": {

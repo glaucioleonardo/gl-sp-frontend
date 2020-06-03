@@ -1,6 +1,6 @@
 {
   "name": "gl-sp-frontend",
-  "version": "1.0.0-alpha7",
+  "version": "1.0.0-alpha8",
   "description": "Common code for SharePoint 2013/2016 using among web front-end development such as pure JavaScript, ES6+ and TypeScript",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -34,7 +34,7 @@
   "license": "ISC",
   "homepage": "https://www.glauciosantana.com",
   "dependencies": {
-    "gl-w-frontend": "^1.4.11",
+    "gl-w-frontend": "^1.4.12",
     "sp-pnp-js": "^3.0.10"
   },
   "devDependencies": {

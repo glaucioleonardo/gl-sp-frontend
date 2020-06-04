@@ -2,12 +2,20 @@ import { AttachmentFileAddResult, AttachmentFileInfo, ItemAddResult, TypedHash }
 import { IAttachmentData, IAttachmentServerData, IListDatabaseResults } from './core-services-list-items.interface';
 import { AttachmentFile } from 'sp-pnp-js/lib/sharepoint/attachmentfiles';
 declare class Core {
+    fieldsToStringArray(fields: string[]): string;
     /**
      * Retrieve a search list based on fields, filter and ordering
      * @param listName
      * @param fieldsArray (optional)
      */
     retrieve(listName: string, fieldsArray?: string[]): Promise<any[]>;
+    /**
+     * Retrieve a unique list item based on fields, filter and ordering
+     * @param listItemId
+     * @param listName
+     * @param fieldsArray (optional)
+     */
+    retrieveSingle(listItemId: number, listName: string, fieldsArray?: string[]): Promise<any>;
     /**
      * Move items to recycle bin. The user will be able to restore the information.
      * @param listItemId

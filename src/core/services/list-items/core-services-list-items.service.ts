@@ -1,30 +1,49 @@
 import pnp, { AttachmentFileAddResult, AttachmentFileInfo, ItemAddResult, TypedHash } from 'sp-pnp-js';
+// noinspection ES6PreferShortImport
 import { SpCore } from '../setup/core-services-setup.service';
 import { IAttachmentData, IAttachmentServerData, IListDatabaseResults } from './core-services-list-items.interface';
 import { AttachmentIcon } from 'gl-w-frontend';
 import { AttachmentFile } from 'sp-pnp-js/lib/sharepoint/attachmentfiles';
 
 class Core {
+
+  fieldsToStringArray(fields: string[]): string {
+    return fields.toString().replace('[', '').replace(']', '');
+  }
+
   /**
    * Retrieve a search list based on fields, filter and ordering
    * @param listName
    * @param fieldsArray (optional)
    */
-  retrieve(listName: string, fieldsArray: string[] = []): Promise<any[]> {
-    const fields: string = fieldsArray.toString().replace('[', '').replace(']', '');
+  async retrieve(listName: string, fieldsArray: string[] = []): Promise<any[]> {
+    const fields: string = this.fieldsToStringArray(fieldsArray);
 
-    return new Promise(async (resolve, reject) => {
-      pnp.sp.web.lists.getByTitle(listName).items
-        .select(fields)
-        .get()
-        .then((result: any[]) => {
-          resolve(result);
-        })
-        .catch(reason => {
-          SpCore.showErrorLog(reason);
-          reject(reason);
-        });
-    });
+    try {
+      return await pnp.sp.web.lists.getByTitle(listName).items.select(fields).get();
+    } catch (reason) {
+      const error = SpCore.onError(reason)
+      SpCore.showErrorLog(reason);
+      throw new Error(error.code.toString())
+    }
+  }
+
+  /**
+   * Retrieve a unique list item based on fields, filter and ordering
+   * @param listItemId
+   * @param listName
+   * @param fieldsArray (optional)
+   */
+  async retrieveSingle(listItemId: number, listName: string, fieldsArray: string[] = []): Promise<any> {
+    const fields: string = this.fieldsToStringArray(fieldsArray);
+
+    try {
+      return await pnp.sp.web.lists.getByTitle(listName).items.getById(listItemId).select(fields).get();
+    } catch (reason) {
+      const error = SpCore.onError(reason)
+      SpCore.showErrorLog(reason);
+      throw new Error(error.code.toString())
+    }
   }
 
   /**

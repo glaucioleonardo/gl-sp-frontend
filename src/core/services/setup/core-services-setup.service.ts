@@ -25,7 +25,7 @@ class Core {
                 Accept: this._jsonHeader,
               },
               baseUrl: url == null ? this._baseUrl : url,
-            },
+            }
           });
 
           resolve({

@@ -2,25 +2,18 @@
   "compilerOptions": {
     "baseUrl": "src",
     "moduleResolution": "node",
-    "module": "commonJS",
-    "target": "es5",
     "declaration": true,
     "sourceMap": true,
-    "outDir": "lib",
     "strict": true,
-    "lib": [
-      "dom",
-      "es5",
-      "scripthost",
-      "es2015.promise"
-    ],
+    "removeComments": true,
     "downlevelIteration": true,
     "allowSyntheticDefaultImports": true,
+    "diagnostics": true,
     "typeRoots": [
       "./node_modules/@types",
       "./@types"
     ]
   },
-  "include": ["src/**/*"],
+  "include": [ "src/**/*" ],
   "exclude": ["node_modules", "**/__tests__/*"]
 }

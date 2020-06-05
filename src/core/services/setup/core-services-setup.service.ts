@@ -2,10 +2,11 @@ import { default as pnp } from 'sp-pnp-js';
 import { ISpCoreResult } from './core-services-setup.interface';
 
 class Core {
+  // @ts-ignore
   get baseUrl(): string {
     return this._baseUrl;
   }
-
+  // @ts-ignore
   set baseUrl(value: string) {
     this._baseUrl = value;
   }

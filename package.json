@@ -1,10 +1,10 @@
 {
   "name": "gl-sp-frontend",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Common code for SharePoint 2013/2016 using among web front-end development such as pure JavaScript, ES6+ and TypeScript",
-  "main": "lib/es5/index.js",
-  "types": "lib/es5/index.d.ts",
-  "module": "lib/es5/index.js",
+  "main": "lib/es5/bundle.js",
+  "types": "lib/es5/bundle.d.ts",
+  "module": "lib/es5/bundle.js",
   "scripts": {
     "clean": "shx rm -rf dist lib",
     "copy-assets": "copyfiles -a -u2 src/lib/assets/** lib",

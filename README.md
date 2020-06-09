@@ -13,7 +13,27 @@ This package contains the types for using with Typescript.
  The easiest way to install this library is via npm using the following commands:
 * Latest version `npm install gl-sp-frontend --save`;
 * [Available versions](https://www.npmjs.com/package/gl-sp-frontend?activeTab=versions) `npm install gl-sp-frontend@version --save`;
+* If you need to support old browsers (tested in IE10+), just install those packages polyfills and import as 
+the following sequence:
+  * [es6-promise](https://github.com/stefanpenner/es6-promise): `npm install es6-promise --save`
+  * [whatwg-fetch](https://github.com/github/fetch): `npm install whatwg-fetch --save`
 
+This is how you should include in your code and voila \o/:
+
+```
+import * as promise from 'es6-promise';
+import 'whatwg-fetch';
+
+class MyBeautifulClass {
+    constructor() {
+        promise.polyfill();
+    }
+}
+```
+
+If you are using Angular 2+, just import these packages inside polyfill.js and in the section:<br>
+`/** IE10 and IE11 requires the following for external source of SVG when using <use> tag */`<br> 
+include `promise.polyfill();` and everything should work fine!
 
 If you are using only browser version:
 * For ES5 version importing via <br>
@@ -28,14 +48,14 @@ If you are using only browser version:
  <body>
     ...
     <!-- Include here -->
-    <script src="https://github.com/glaucioleonardo/gl-sp-frontend/tree/master/lib/index.js"></script>
-    <!-- or just download this repo and refer to the index.js like this -->
-    <script src="js/index.js"></script>
+    <script src="https://github.com/glaucioleonardo/gl-sp-frontend/tree/master/lib/bundle.js"></script>
+    <!-- or just download this repo and refer to the bundle.js like this -->
+    <script src="js/bundle.js"></script>
  </body>
  </html>
  ```
 
-* In case you are using ES+, just use the `index.js` inside `lib/esm`
+* In case you are using ES+, just use the `bundle.js` inside `lib/es6`
 
 ### Macro features ###
 

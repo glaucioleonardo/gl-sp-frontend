@@ -3,43 +3,44 @@ import { SpCore } from '../setup/core-services-setup.service';
 import { ISpCoreResult, ISpCurrentUser } from '../setup/core-services-setup.interface';
 
 class Core {
-  currentUser(): PromiseLike<ISpCurrentUser> {
-    return new Promise((resolve, reject) => {
-      pnp.sp.web.currentUser.get()
-        .then((user: ISpCurrentUser) => {
-          resolve(user);
-        })
-        .catch(reason => {
-          reject(SpCore.onError(reason));
-        });
-    });
+  async currentUser(baseUrl: string): Promise<ISpCurrentUser> {
+    const base = baseUrl == null ? SpCore.baseUrl : baseUrl;
+
+    try {
+      return await pnp.sp.configure(SpCore.config, base).web.currentUser.get() as ISpCurrentUser;
+    } catch (reason) {
+      const error = SpCore.onError(reason);
+      throw new Error (`Error code: ${error.code}.\nError message: ${error.message}.\nError description: ${error.description}`);
+    }
   }
 }
 
 export const SpUserCore = new Core();
 
 class Permissions {
-  async isAdmin(): Promise<boolean> {
-    const currentUser: ISpCurrentUser = await SpUserCore.currentUser();
+  async isAdmin(baseUrl: string): Promise<boolean> {
+    const base = baseUrl == null ? SpCore.baseUrl : baseUrl;
+    const currentUser: ISpCurrentUser = await SpUserCore.currentUser(base);
     return currentUser.IsSiteAdmin;
   }
 
-  isInGroup(groupName: string, userEmail: string): Promise<boolean | ISpCoreResult> {
-    return new Promise((resolve, reject) => {
-      pnp.sp.web.siteGroups.getByName(groupName).users.get()
-        .then((users: ISpCurrentUser[]) => {
-          const user: ISpCurrentUser[] = users.filter(x => x.Email === userEmail);
-          resolve(user.length > 0);
-        })
-        .catch(reason => {
-          reject(reason);
-        });
-    });
+  async isInGroup(groupName: string, userEmail: string, baseUrl: string): Promise<boolean | ISpCoreResult> {
+    const base = baseUrl == null ? SpCore.baseUrl : baseUrl;
+
+    try {
+      const user: ISpCurrentUser = await pnp.sp.configure(SpCore.config, base).web.siteGroups.getByName(groupName).users.getByEmail(userEmail).get();
+      return user.Email != null && user.Email.length > 0;
+    } catch (reason) {
+      const error = SpCore.onError(reason);
+      throw new Error (`Error code: ${error.code}.\nError message: ${error.message}.\nError description: ${error.description}`);
+    }
   }
 
-  async isCurrentUserInGroup(groupName: string): Promise<any> {
-    const currentUser: ISpCurrentUser = await SpUserCore.currentUser();
-    return await this.isInGroup(groupName, currentUser.Email);
+  async isCurrentUserInGroup(groupName: string, baseUrl: string): Promise<any> {
+    const base = baseUrl == null ? SpCore.baseUrl : baseUrl;
+
+    const currentUser: ISpCurrentUser = await SpUserCore.currentUser(base);
+    return await this.isInGroup(groupName, currentUser.Email, base);
   }
 }
 

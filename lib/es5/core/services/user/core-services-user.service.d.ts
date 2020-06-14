@@ -1,12 +1,12 @@
 import { ISpCoreResult, ISpCurrentUser } from '../setup/core-services-setup.interface';
 declare class Core {
-    currentUser(): PromiseLike<ISpCurrentUser>;
+    currentUser(baseUrl: string): Promise<ISpCurrentUser>;
 }
 export declare const SpUserCore: Core;
 declare class Permissions {
-    isAdmin(): Promise<boolean>;
-    isInGroup(groupName: string, userEmail: string): Promise<boolean | ISpCoreResult>;
-    isCurrentUserInGroup(groupName: string): Promise<any>;
+    isAdmin(baseUrl: string): Promise<boolean>;
+    isInGroup(groupName: string, userEmail: string, baseUrl: string): Promise<boolean | ISpCoreResult>;
+    isCurrentUserInGroup(groupName: string, baseUrl: string): Promise<any>;
 }
 export declare const SpUserPermissions: Permissions;
 export {};

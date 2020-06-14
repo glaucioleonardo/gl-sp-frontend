@@ -1,18 +1,21 @@
-import { default as pnp } from 'sp-pnp-js';
+import { ConfigOptions, default as pnp } from 'sp-pnp-js';
 import { ISpCoreResult } from './core-services-setup.interface';
 
 class Core {
   // @ts-ignore
-  get baseUrl(): string {
-    return this._baseUrl;
-  }
+  get config(): ConfigOptions { return this._config; }
   // @ts-ignore
-  set baseUrl(value: string) {
-    this._baseUrl = value;
-  }
+  get jsonHeader(): string { return this._jsonHeader; }
+  // @ts-ignore
+  get baseUrl(): string { return this._baseUrl; }
+  // @ts-ignore
+  set baseUrl(value: string) { this._baseUrl = value; }
 
-  private readonly _jsonHeader = 'application/json;odata=verbose';
   private _baseUrl = '';
+  private readonly _jsonHeader = 'application/json;odata=verbose';
+  private readonly _config: ConfigOptions = {
+    headers: { Accept: this._jsonHeader }
+  }
 
   setup(url?: string): PromiseLike<ISpCoreResult> {
     return new Promise((resolve, reject) => {
@@ -28,6 +31,8 @@ class Core {
               baseUrl: url == null ? this._baseUrl : url,
             }
           });
+
+          this.baseUrl = url == null ? this._baseUrl : url;
 
           resolve({
             code: 200,

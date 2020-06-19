@@ -1,5 +1,4 @@
 import pnp, { AttachmentFileAddResult, AttachmentFileInfo, ConfigOptions, ItemAddResult, TypedHash } from 'sp-pnp-js';
-// noinspection ES6PreferShortImport
 import { SpCore } from '../setup/core-services-setup.service';
 import { IAttachmentData, IAttachmentServerData, IListDatabaseResults } from './core-services-list-items.interface';
 import { AttachmentFile } from 'sp-pnp-js/lib/sharepoint/attachmentfiles';
@@ -22,7 +21,7 @@ class Core {
     const base = baseUrl == null ? SpCore.baseUrl : baseUrl;
 
     try {
-      return await pnp.sp.configure(SpCore.config, base).web.lists.getByTitle(listName).items.select(fields).get();
+      return await pnp.sp.configure(SpCore.config, base).web.lists.getByTitle(listName).items.select(fields).getAll();
     } catch (reason) {
       const error = SpCore.onError(reason)
       SpCore.showErrorLog(reason);
@@ -319,7 +318,7 @@ class Search {
         .orderBy(orderBy, ascending)
         .select(fields)
         .filter(filter)
-        .get()
+        .getAll()
         .then((result: any[]) => {
           resolve(result);
         })

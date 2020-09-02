@@ -1,36 +1,33 @@
-import { ConfigOptions, default as pnp } from 'sp-pnp-js';
+import { sp } from "@pnp/sp";
 import { ISpCoreResult } from './core-services-setup.interface';
+import { IConfigOptions } from '@pnp/common';
 
 class Core {
-  // @ts-ignore
-  get config(): ConfigOptions { return this._config; }
-  // @ts-ignore
-  get jsonHeader(): string { return this._jsonHeader; }
-  // @ts-ignore
-  get baseUrl(): string { return this._baseUrl; }
-  // @ts-ignore
-  set baseUrl(value: string) { this._baseUrl = value; }
-
   private _baseUrl = '';
   private readonly _jsonHeader = 'application/json;odata=verbose';
-  private readonly _config: ConfigOptions = {
-    headers: { Accept: this._jsonHeader }
+  private readonly _config: IConfigOptions = {
+    headers: { accept: this._jsonHeader }
   }
 
-  setup(url?: string): PromiseLike<ISpCoreResult> {
+  get config(): IConfigOptions { return this._config; }
+  get jsonHeader(): string { return this._jsonHeader; }
+  get baseUrl(): string { return this._baseUrl; }
+  set baseUrl(value: string) { this._baseUrl = value; }
+
+  setup(url?: string): Promise<ISpCoreResult> {
     return new Promise((resolve, reject) => {
       if (this._baseUrl.trim().length === 0 && url == null) {
         reject(this.onError({ code: 405, description: null, message: null }));
       } else {
         try {
-          pnp.setup({
+          sp.setup({
             sp: {
               headers: {
-                Accept: this._jsonHeader,
+                Accept: this._jsonHeader
               },
-              baseUrl: url == null ? this._baseUrl : url,
+              baseUrl: url == null ? this._baseUrl : url
             }
-          });
+          })
 
           this.baseUrl = url == null ? this._baseUrl : url;
 

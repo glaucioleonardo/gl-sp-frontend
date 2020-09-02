@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "target": "es6",
+    "module": "ESNext",
     "moduleResolution": "node",
     "declaration": true,
     "sourceMap": true,
@@ -13,5 +15,6 @@
       "./@types"
     ]
   },
+
   "exclude": ["node_modules", "**/__tests__/*"]
 }

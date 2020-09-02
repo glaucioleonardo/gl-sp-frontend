@@ -1,8 +1,11 @@
-import pnp, { AttachmentFileAddResult, AttachmentFileInfo, ConfigOptions, ItemAddResult, TypedHash } from 'sp-pnp-js';
 import { SpCore } from '../setup/core-services-setup.service';
-import { IAttachmentData, IAttachmentServerData, IListDatabaseResults } from './core-services-list-items.interface';
-import { AttachmentFile } from 'sp-pnp-js/lib/sharepoint/attachmentfiles';
-import { AttachmentIcon } from 'gl-w-frontend/lib/es5/scripts/core/services/attachment/core-services-attachment.service';
+import { IAttachment, IAttachmentAddResult, IAttachmentFileInfo, IAttachmentInfo } from '@pnp/sp/attachments';
+import { IAttachmentData, IListDatabaseResults, ItemAddResult } from './core-services-list-items.interface';
+import { AttachmentIcon } from 'gl-w-frontend';
+import { sp } from '@pnp/sp/presets/core';
+
+import "@pnp/sp/attachments";
+import { ITypedHash } from '@pnp/common';
 
 class Core {
 
@@ -21,7 +24,7 @@ class Core {
     const base = baseUrl == null ? SpCore.baseUrl : baseUrl;
 
     try {
-      return await pnp.sp.configure(SpCore.config, base).web.lists.getByTitle(listName).items.select(fields).getAll();
+      return await sp.configure(SpCore.config, base).web.lists.getByTitle(listName).items.select(fields).getAll();
     } catch (reason) {
       const error = SpCore.onError(reason)
       SpCore.showErrorLog(reason);
@@ -42,7 +45,7 @@ class Core {
     const base = baseUrl == null ? SpCore.baseUrl : baseUrl;
 
     try {
-      return await pnp.sp.configure(SpCore.config, base).web.lists.getByTitle(listName).items.getById(listItemId).select(fields).get();
+      return await sp.configure(SpCore.config, base).web.lists.getByTitle(listName).items.getById(listItemId).select(fields).get();
     } catch (reason) {
       const error = SpCore.onError(reason)
       SpCore.showErrorLog(reason);
@@ -60,7 +63,7 @@ class Core {
     const base = baseUrl == null ? SpCore.baseUrl : baseUrl;
 
     return new Promise((resolve, reject) => {
-      pnp.sp.configure(SpCore.config, base).web.lists.getByTitle(listName).items.getById(listItemId).recycle().then(() => {
+      sp.configure(SpCore.config, base).web.lists.getByTitle(listName).items.getById(listItemId).recycle().then(() => {
         resolve({ code: 200, description: 'Success!', message: 'The item has been moved to recycle bin.' })
       })
       .catch(reason => {
@@ -80,7 +83,7 @@ class Core {
     const base = baseUrl == null ? SpCore.baseUrl : baseUrl;
 
     return new Promise((resolve, reject) => {
-      pnp.sp.configure(SpCore.config, base).web.lists.getByTitle(listName).items.getById(listItemId).delete().then(() => {
+      sp.configure(SpCore.config, base).web.lists.getByTitle(listName).items.getById(listItemId).delete().then(() => {
         resolve({ code: 200, description: 'Success!', message: 'The item has been deleted successfully.' })
       })
       .catch(reason => {
@@ -96,11 +99,11 @@ class Core {
    * @param data
    * @param baseUrl (optional) In case it is necessary to gather data from another url.
    */
-  add(listName: string, data:  TypedHash<any>, baseUrl?: string): Promise<ItemAddResult> {
+  add(listName: string, data:  ITypedHash<any>, baseUrl?: string): Promise<ItemAddResult> {
     const base = baseUrl == null ? SpCore.baseUrl : baseUrl;
 
     return new Promise((resolve, reject) => {
-      pnp.sp.configure(SpCore.config, base).web.lists.getByTitle(listName).items.add(data)
+      sp.configure(SpCore.config, base).web.lists.getByTitle(listName).items.add(data)
       .then((iar: ItemAddResult) => { resolve(iar); })
       .catch(reason => {
         const error = SpCore.showErrorLog(reason);
@@ -116,11 +119,11 @@ class Core {
    * @param data
    * @param baseUrl (optional) In case it is necessary to gather data from another url.
    */
-  update(listItemId: number, listName: string, data:  TypedHash<any>, baseUrl?: string): Promise<ItemAddResult> {
+  update(listItemId: number, listName: string, data:  ITypedHash<any>, baseUrl?: string): Promise<ItemAddResult> {
     const base = baseUrl == null ? SpCore.baseUrl : baseUrl;
 
     return new Promise((resolve, reject) => {
-      pnp.sp.configure(SpCore.config, base).web.lists.getByTitle(listName).items.getById(listItemId).update(data)
+      sp.configure(SpCore.config, base).web.lists.getByTitle(listName).items.getById(listItemId).update(data)
       .then((iar: ItemAddResult) => { resolve(iar); })
       .catch(reason => {
         const error = SpCore.showErrorLog(reason);
@@ -140,11 +143,11 @@ class Attachment {
    * @param attachments
    * @param baseUrl (optional) In case it is necessary to gather data from another url.
    */
-  add(listItemId: number, listName: string, attachments: AttachmentFileInfo[], baseUrl?: string): Promise<any> {
+  add(listItemId: number, listName: string, attachments: IAttachmentFileInfo[], baseUrl?: string): Promise<any> {
     const base = baseUrl == null ? SpCore.baseUrl : baseUrl;
 
     return new Promise((resolve, reject) => {
-      pnp.sp.configure(SpCore.config, base).web.lists.getByTitle(listName).items.getById(listItemId).attachmentFiles.addMultiple(attachments)
+      sp.configure(SpCore.config, base).web.lists.getByTitle(listName).items.getById(listItemId).attachmentFiles.addMultiple(attachments)
         .then(() => {
           resolve({ code: 200, description: 'Success!', message: 'The attachments has been added successfully.' });
         })
@@ -167,7 +170,7 @@ class Attachment {
     const base = baseUrl == null ? SpCore.baseUrl : baseUrl;
 
     return new Promise((resolve, reject) => {
-      pnp.sp.configure(SpCore.config, base).web.lists.getByTitle(listName).items.getById(listItemId).attachmentFiles.deleteMultiple(...attachments)
+      sp.configure(SpCore.config, base).web.lists.getByTitle(listName).items.getById(listItemId).attachmentFiles.deleteMultiple(...attachments)
         .then(() => {
           resolve({ code: 200, description: 'Success!', message: 'The attachments has been deleted successfully.' });
         })
@@ -184,12 +187,12 @@ class Attachment {
    * @param listName
    * @param baseUrl (optional) In case it is necessary to gather data from another url.
    */
-  retrieve(listItemId: number, listName: string, baseUrl?: string): Promise<IAttachmentServerData[]> {
+  retrieve(listItemId: number, listName: string, baseUrl?: string): Promise<IAttachmentInfo[]> {
     const base = baseUrl == null ? SpCore.baseUrl : baseUrl;
 
     return new Promise((resolve, reject) => {
-      pnp.sp.configure(SpCore.config, base).web.lists.getByTitle(listName).items.getById(listItemId).attachmentFiles.get()
-        .then((attachments: IAttachmentServerData[]) => {
+      sp.configure(SpCore.config, base).web.lists.getByTitle(listName).items.getById(listItemId).attachmentFiles.get()
+        .then((attachments: IAttachmentInfo[]) => {
           resolve(attachments);
         })
         .catch(reason => {
@@ -207,13 +210,17 @@ class Attachment {
    * @param baseUrl (optional) In case it is necessary to gather data from another url.
    */
   async retrieveForBinding(listItemId: number, listName: string, baseUrl?: string): Promise<IAttachmentData[]> {
-    const base = baseUrl == null ? SpCore.baseUrl : baseUrl;
+    let base = baseUrl == null ? SpCore.baseUrl : baseUrl;
 
-    const attachmentList: IAttachmentServerData[] = await this.retrieve(listItemId, listName, base);
+    if (!base.includes('http')) {
+      base  = 'http://' + base;
+    }
+
+    const attachmentList: IAttachmentInfo[] = await this.retrieve(listItemId, listName, base);
     const attachments: IAttachmentData[] = [];
 
     for (const attachment of attachmentList) {
-      const host = attachment.__metadata.uri.split('/s/')[0];
+      const host = base.split('://')[0] + '://' + base.split('://')[1].split('/')[0];
       const serverRelativeUrl = attachment.ServerRelativeUrl;
       const url = encodeURI(host + serverRelativeUrl);
 
@@ -243,7 +250,7 @@ class Attachment {
     const base = baseUrl == null ? SpCore.baseUrl : baseUrl;
 
     return new Promise((resolve, reject) => {
-      pnp.sp.configure(SpCore.config, base).web.lists.getByTitle(listName).items.getById(listItemId).attachmentFiles.getByName(`${fileName}.txt`).getText()
+      sp.configure(SpCore.config, base).web.lists.getByTitle(listName).items.getById(listItemId).attachmentFiles.getByName(`${fileName}.txt`).getText()
       .then((image: string) => {
         resolve(image);
       })
@@ -262,12 +269,12 @@ class Attachment {
    * @param content Content to be added to the text
    * @param baseUrl (optional) In case it is necessary to gather data from another url.
    */
-  setTxtContent(listItemId: number, listName: string, fileName: string = 'attachment', content: string, baseUrl?: string): Promise<AttachmentFile> {
+  setTxtContent(listItemId: number, listName: string, fileName: string = 'attachment', content: string, baseUrl?: string): Promise<IAttachment> {
     const base = baseUrl == null ? SpCore.baseUrl : baseUrl;
 
     return new Promise((resolve, reject) => {
-      pnp.sp.configure(SpCore.config, base).web.lists.getByTitle(listName).items.getById(listItemId).attachmentFiles.getByName(`${fileName}.txt`).setContent(content)
-      .then((attachmentFile: AttachmentFile) => { resolve(attachmentFile); })
+      sp.configure(SpCore.config, base).web.lists.getByTitle(listName).items.getById(listItemId).attachmentFiles.getByName(`${fileName}.txt`).setContent(content)
+      .then((attachmentFile: IAttachment) => { resolve(attachmentFile); })
       .catch(reason => {
         const error = SpCore.showErrorLog(reason);
         reject(error)
@@ -283,12 +290,12 @@ class Attachment {
    * @param content Content to be added to the text
    * @param baseUrl (optional) In case it is necessary to gather data from another url.
    */
-  addTxtContent(listItemId: number, listName: string, fileName: string = 'attachment', content: string, baseUrl?: string): Promise<AttachmentFileAddResult> {
+  addTxtContent(listItemId: number, listName: string, fileName: string = 'attachment', content: string, baseUrl?: string): Promise<IAttachmentAddResult> {
     const base = baseUrl == null ? SpCore.baseUrl : baseUrl;
 
     return new Promise((resolve, reject) => {
-      pnp.sp.configure(SpCore.config, base).web.lists.getByTitle(listName).items.getById(listItemId).attachmentFiles.add(`${fileName}.txt`, content)
-      .then((attachmentFile: AttachmentFileAddResult) => { resolve(attachmentFile); })
+      sp.configure(SpCore.config, base).web.lists.getByTitle(listName).items.getById(listItemId).attachmentFiles.add(`${fileName}.txt`, content)
+      .then((attachmentFile: IAttachmentAddResult) => { resolve(attachmentFile); })
       .catch(reason => {
         const error = SpCore.showErrorLog(reason);
         reject(error)
@@ -314,7 +321,7 @@ class Search {
     const fields: string = fieldsArray.toString().replace('[', '').replace(']', '');
 
     return new Promise(async (resolve, reject) => {
-      pnp.sp.configure(SpCore.config, base).web.lists.getByTitle(listName).items
+      sp.configure(SpCore.config, base).web.lists.getByTitle(listName).items
         .orderBy(orderBy, ascending)
         .select(fields)
         .filter(filter)

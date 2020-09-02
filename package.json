@@ -1,10 +1,10 @@
 {
   "name": "gl-sp-frontend",
-  "version": "1.0.6",
-  "description": "Common code for SharePoint 2013/2016 using among web front-end development such as pure JavaScript, ES6+ and TypeScript",
-  "main": "lib/es5/bundle.js",
-  "types": "lib/es5/bundle.d.ts",
-  "module": "lib/es5/bundle.js",
+  "version": "2.0.0",
+  "description": "Common code for SharePoint 2013/2016 using among web front-end development such as ES6+ and TypeScript",
+  "main": "lib/bundle.js",
+  "types": "lib/bundle.d.ts",
+  "module": "lib/bundle.js",
   "scripts": {
     "clean": "shx rm -rf dist lib",
     "copy-assets": "copyfiles -a -u2 src/lib/assets/** lib",
@@ -13,10 +13,9 @@
     "test": "npm run production && npm pack",
     "lint": "eslint . --ext .ts",
     "build-index": "tsc -p ./tsconfig-index.json",
-    "build-es5": "tsc -p ./tsconfig-es5.json",
     "build-es6": "tsc -p ./tsconfig-es6.json",
-    "build": "npm run build-es5 && npm run build-es6 && npm run build-index",
-    "glw": "cd D:\\_local-development\\gl-w-frontend && npm run production && cd D:\\_local-development\\gl-sp-frontend && npm pack D:\\_local-development\\gl-w-frontend && npm i --prefer-offline ./gl-w-frontend-1.4.24.tgz && shx rm -rf ./gl-w-frontend-1.4.24.tgz"
+    "build": "npm run build-es6 && npm run build-index",
+    "glw": "cd D:\\_local-development\\_glaucio\\packages\\gl-w-frontend && npm run production && cd D:\\_local-development\\_glaucio\\packages\\gl-sp-frontend && npm pack D:\\_local-development\\_glaucio\\packages\\gl-w-frontend && npm i --prefer-offline ./gl-w-frontend-2.0.0.tgz && shx rm -rf ./gl-w-frontend-2.0.0.tgz"
   },
   "repository": {
     "type": "git",
@@ -38,11 +37,10 @@
   "homepage": "https://www.glauciosantana.com",
   "bugs": "https://github.com/glaucioleonardo/gl-sp-frontend/issues",
   "dependencies": {
-    "core-js": "^3.6.5",
-    "gl-w-frontend": "^1.4.25",
-    "sp-pnp-js": "^3.0.10",
-    "ts-polyfill": "^3.8.2",
-    "whatwg-fetch": "^3.0.0"
+    "@pnp/graph": "^2.0.8",
+    "@pnp/sp": "^2.0.8",
+    "gl-w-frontend": "^2.0.0",
+    "ts-polyfill": "^3.8.2"
   },
   "devDependencies": {
     "@types/node": "^14.0.5",

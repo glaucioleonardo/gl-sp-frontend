@@ -1,6 +1,6 @@
 import { IDeferred, IMetadata } from '../../../bundle';
-import { Item } from 'sp-pnp-js';
-import { AttachmentFile } from 'sp-pnp-js/lib/sharepoint/attachmentfiles';
+import { IAttachment } from '@pnp/sp/attachments';
+import { IItem } from '@pnp/sp/items';
 
 export interface IAttachmentServerData {
   __metadata: IAttachmentMetadata;
@@ -89,11 +89,11 @@ export interface IAttachmentFileInfo {
 }
 
 export interface IAttachmentFileAddResult {
-  file: AttachmentFile;
+  file: IAttachment;
   data: any;
 }
 
 export interface ItemAddResult {
-  item: Item;
+  item: IItem;
   data: any;
 }

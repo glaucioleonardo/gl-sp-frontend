@@ -4,8 +4,7 @@
 [![downloads](https://img.shields.io/npm/dw/gl-sp-frontend)](https://www.npmjs.com/package/gl-sp-frontend)
  
 ### What is this repository for? ###
-This package (**g**laucio**l**eonardo-**s**hare**p**oint-**frontend**) is a common code for SharePoint 2013/2016 using among web front-end development such as pure 
-JavaScript, ES6+ and TypeScript.<br>
+This package (**g**laucio**l**eonardo-**s**hare**p**oint-**frontend**) is a common code for SharePoint 2013/2016 using among web front-end development such as ES6+ and TypeScript.<br>
 
 This package contains the types for using with Typescript.
 

@@ -4,7 +4,7 @@
   "compilerOptions": {
     "target": "es6",
     "module": "ESNext",
-    "outDir": "lib/es6",
+    "outDir": "lib",
     "strict": true,
     "lib": [
       "dom",

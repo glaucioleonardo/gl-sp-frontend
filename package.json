@@ -1,0 +1,56 @@
+{
+  "name": "gl-sp-frontend",
+  "version": "2.0.0",
+  "description": "Common code for SharePoint 2013/2016 using among web front-end development such as ES6+ and TypeScript",
+  "main": "lib/bundle.js",
+  "types": "lib/bundle.d.ts",
+  "module": "lib/bundle.js",
+  "scripts": {
+    "clean": "shx rm -rf dist lib",
+    "copy-assets": "copyfiles -a -u2 src/lib/assets/** lib",
+    "production": "npm run build && npm run copy-assets",
+    "fast-build": "tsc",
+    "test": "npm run production && npm pack",
+    "lint": "eslint . --ext .ts",
+    "build-index": "tsc -p ./tsconfig-index.json",
+    "build-es6": "tsc -p ./tsconfig-es6.json",
+    "build": "npm run build-es6 && npm run build-index",
+    "glw": "cd D:\\_local-development\\_glaucio\\packages\\gl-w-frontend && npm run production && cd D:\\_local-development\\_glaucio\\packages\\gl-sp-frontend && npm pack D:\\_local-development\\_glaucio\\packages\\gl-w-frontend && npm i --prefer-offline ./gl-w-frontend-2.0.0.tgz && shx rm -rf ./gl-w-frontend-2.0.0.tgz"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/glaucioleonardo/gl-sp-frontend.git"
+  },
+  "keywords": [
+    "sharepoint",
+    "sharepoint 2013",
+    "sharepoint javascript tool",
+    "sharepoint typescript tool",
+    "sharepoint front-end",
+    "sharepoint pure javascript",
+    "sharepoint list",
+    "sharepoint list items",
+    "sharepoint connection"
+  ],
+  "author": "Gláucio Leonardo Sant'ana",
+  "license": "ISC",
+  "homepage": "https://www.glauciosantana.com",
+  "bugs": "https://github.com/glaucioleonardo/gl-sp-frontend/issues",
+  "dependencies": {
+    "@pnp/graph": "^2.0.8",
+    "@pnp/sp": "^2.0.8",
+    "gl-w-frontend": "^2.0.0",
+    "ts-polyfill": "^3.8.2"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.5",
+    "@types/xlsx-populate": "git+https://github.com/JanLoebel/types-xlsx-populate.git",
+    "@typescript-eslint/eslint-plugin": "^3.1.0",
+    "@typescript-eslint/eslint-plugin-tslint": "^3.1.0",
+    "@typescript-eslint/parser": "^3.1.0",
+    "eslint": "^7.1.0",
+    "shx": "^0.3.2",
+    "tslint": "^5.20.1",
+    "typescript": "~3.7.5"
+  }
+}

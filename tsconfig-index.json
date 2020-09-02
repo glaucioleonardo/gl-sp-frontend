@@ -1,0 +1,21 @@
+{
+  "extends": "./tsconfig.json",
+  "baseUrl": "src/index.ts",
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "ESNext",
+    "outDir": "lib",
+    "strict": false,
+    "lib": [
+      "dom",
+      "ES2015.Symbol",
+      "ES2015.Symbol.WellKnown",
+      "ES2015.Iterable",
+      "ES2015.Promise",
+      "ES2015.Core",
+      "ES2016"
+    ]
+  },
+  "include": [ "src/*.ts" ],
+  "exclude": [ "src/lib/**/*" ]
+}

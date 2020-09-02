@@ -1,0 +1,20 @@
+{
+  "extends": "./tsconfig.json",
+  "baseUrl": "src/lib/scripts/",
+  "compilerOptions": {
+    "target": "es6",
+    "module": "ESNext",
+    "outDir": "lib",
+    "strict": true,
+    "lib": [
+      "dom",
+      "ES2015.Symbol",
+      "ES2015.Symbol.WellKnown",
+      "ES2015.Iterable",
+      "ES2015.Promise",
+      "ES2015.Core",
+      "ES2016"
+    ]
+  },
+  "include": ["src/lib/bundle.ts"]
+}

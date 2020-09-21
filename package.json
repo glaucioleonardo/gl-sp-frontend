@@ -1,6 +1,6 @@
 {
   "name": "gl-sp-frontend",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Common code for SharePoint 2013/2016 using among web front-end development such as ES6+ and TypeScript",
   "main": "lib/bundle.js",
   "types": "lib/bundle.d.ts",
@@ -39,7 +39,7 @@
   "dependencies": {
     "@pnp/graph": "^2.0.8",
     "@pnp/sp": "^2.0.8",
-    "gl-w-frontend": "^2.0.0",
+    "gl-w-frontend": "^2.1.0",
     "ts-polyfill": "^3.8.2"
   },
   "devDependencies": {

@@ -24,6 +24,7 @@ declare class Attachment {
 export declare const ListItemsAttachment: Attachment;
 declare class Search {
     retrieveSearch(listName: string, fieldsArray?: string[], filter?: string, orderBy?: string, ascending?: boolean, baseUrl?: string): Promise<IListDatabaseResults[]>;
+    retrieveSearchLimited(listName: string, fieldsArray?: string[], maxItems?: number, filter?: string, orderBy?: string, ascending?: boolean, baseUrl?: string): Promise<IListDatabaseResults[]>;
 }
 export declare const ListItemsSearch: Search;
 export {};

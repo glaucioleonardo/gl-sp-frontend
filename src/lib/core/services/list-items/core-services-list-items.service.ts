@@ -225,7 +225,7 @@ class Attachment {
       const url = encodeURI(host + serverRelativeUrl);
 
       const file: IAttachmentData = {
-        id: attachmentList.length,
+        id: attachments.length,
         new: false,
         remove: false,
         name: attachment.FileName,
@@ -326,6 +326,37 @@ class Search {
         .select(fields)
         .filter(filter)
         .getAll()
+        .then((result: any[]) => {
+          resolve(result);
+        })
+        .catch(reason => {
+          SpCore.showErrorLog(reason);
+          reject(reason);
+        });
+    });
+  }
+
+  /**
+   * Retrieve a search list based on fields, filter and ordering
+   * @param listName
+   * @param fieldsArray (optional)
+   * @param maxItems (optional)
+   * @param filter (optional)
+   * @param orderBy (optional)
+   * @param ascending (optional)
+   * @param baseUrl (optional) In case it is necessary to gather data from another url.
+   */
+  retrieveSearchLimited(listName: string, fieldsArray: string[] = [], maxItems: number = 100 ,filter: string = '', orderBy: string = 'ID', ascending: boolean = true, baseUrl?: string): Promise<IListDatabaseResults[]> {
+    const base = baseUrl == null ? SpCore.baseUrl : baseUrl;
+    const fields: string = fieldsArray.toString().replace('[', '').replace(']', '');
+
+    return new Promise(async (resolve, reject) => {
+      sp.configure(SpCore.config, base).web.lists.getByTitle(listName).items
+        .orderBy(orderBy, ascending)
+        .top(maxItems)
+        .select(fields)
+        .filter(filter)
+        .get()
         .then((result: any[]) => {
           resolve(result);
         })

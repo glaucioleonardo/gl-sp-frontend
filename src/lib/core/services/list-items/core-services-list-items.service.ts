@@ -1,8 +1,8 @@
 import { SpCore } from '../setup/core-services-setup.service';
 import { IAttachment, IAttachmentAddResult, IAttachmentFileInfo, IAttachmentInfo } from '@pnp/sp/attachments';
-import { IAttachmentData, IListDatabaseResults, ItemAddResult } from './core-services-list-items.interface';
+import { IAttachmentBlob, IAttachmentData, IAttachmentMultipleBlobs, IListDatabaseResults, ItemAddResult } from './core-services-list-items.interface';
 import { AttachmentIcon } from 'gl-w-frontend';
-import { sp } from '@pnp/sp/presets/core';
+import { IItem, sp } from '@pnp/sp/presets/core';
 
 import "@pnp/sp/attachments";
 import { ITypedHash } from '@pnp/common';
@@ -200,6 +200,67 @@ class Attachment {
           reject([])
         });
     });
+  }
+
+  /**
+   * Before using this method, you need defining the base url on setup (SpCore).
+   * @param listItemId
+   * @param listName
+   * @param fileName
+   * @param baseUrl (optional) In case it is necessary to gather data from another url.
+   */
+  async retrieveBlob(listItemId: number, listName: string, fileName: string, baseUrl?: string): Promise<Blob | null> {
+    const base = baseUrl == null ? SpCore.baseUrl : baseUrl;
+
+    try {
+      const item: IItem = sp.configure(SpCore.config, base).web.lists.getByTitle(listName).items.getById(listItemId);
+      return await item.attachmentFiles.getByName(fileName).getBlob();
+    } catch (reason) {
+      SpCore.showErrorLog(reason);
+      return null;
+    }
+  }
+
+  async retrieveMultipleBlobSameItem(listItemId: number, listName: string, fileNames: string[], baseUrl?: string): Promise<IAttachmentBlob[]> {
+    const base = baseUrl == null ? SpCore.baseUrl : baseUrl;
+    const blobs: IAttachmentBlob[] = [];
+
+    try {
+      for (const fileName of fileNames) {
+        const item: IItem = sp.configure(SpCore.config, base).web.lists.getByTitle(listName).items.getById(listItemId);
+        blobs.push({
+          fileName,
+          file: await item.attachmentFiles.getByName(fileName).getBlob(),
+          icon: AttachmentIcon.get(fileName)
+        }) ;
+      }
+
+     return blobs;
+    } catch (reason) {
+      SpCore.showErrorLog(reason);
+      return [];
+    }
+  }
+
+  async retrieveMultipleBlob(data: IAttachmentMultipleBlobs[], baseUrl?: string): Promise<IAttachmentBlob[]> {
+    const base = baseUrl == null ? SpCore.baseUrl : baseUrl;
+    const blobs: IAttachmentBlob[] = [];
+
+    try {
+      for (const content of data) {
+        const item: IItem = sp.configure(SpCore.config, base).web.lists.getByTitle(content.listName).items.getById(content.id);
+        blobs.push({
+          fileName: content.fileName,
+          file: await item.attachmentFiles.getByName(content.fileName).getBlob(),
+          icon: AttachmentIcon.get(content.fileName)
+        }) ;
+      }
+
+      return blobs;
+    } catch (reason) {
+      SpCore.showErrorLog(reason);
+      return [];
+    }
   }
 
   /**

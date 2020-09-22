@@ -14,6 +14,18 @@ interface IAttachmentMetadata {
   type: string;
 }
 
+export interface IAttachmentMultipleBlobs {
+  id: number;
+  listName: string;
+  fileName: string;
+}
+
+export interface IAttachmentBlob {
+  fileName: string,
+  file: Blob,
+  icon: string;
+}
+
 export interface IAttachmentData {
   id: number;
   new: boolean;

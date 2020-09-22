@@ -1,5 +1,5 @@
 import { IAttachment, IAttachmentAddResult, IAttachmentFileInfo, IAttachmentInfo } from '@pnp/sp/attachments';
-import { IAttachmentData, IListDatabaseResults, ItemAddResult } from './core-services-list-items.interface';
+import { IAttachmentBlob, IAttachmentData, IAttachmentMultipleBlobs, IListDatabaseResults, ItemAddResult } from './core-services-list-items.interface';
 import "@pnp/sp/attachments";
 import { ITypedHash } from '@pnp/common';
 declare class Core {
@@ -16,6 +16,9 @@ declare class Attachment {
     add(listItemId: number, listName: string, attachments: IAttachmentFileInfo[], baseUrl?: string): Promise<any>;
     delete(listItemId: number, listName: string, attachments: string[], baseUrl?: string): Promise<any>;
     retrieve(listItemId: number, listName: string, baseUrl?: string): Promise<IAttachmentInfo[]>;
+    retrieveBlob(listItemId: number, listName: string, fileName: string, baseUrl?: string): Promise<Blob | null>;
+    retrieveMultipleBlobSameItem(listItemId: number, listName: string, fileNames: string[], baseUrl?: string): Promise<IAttachmentBlob[]>;
+    retrieveMultipleBlob(data: IAttachmentMultipleBlobs[], baseUrl?: string): Promise<IAttachmentBlob[]>;
     retrieveForBinding(listItemId: number, listName: string, baseUrl?: string): Promise<IAttachmentData[]>;
     retrieveTxtContent(listItemId: number, listName: string, fileName?: string, baseUrl?: string): Promise<string>;
     setTxtContent(listItemId: number, listName: string, fileName: string | undefined, content: string, baseUrl?: string): Promise<IAttachment>;

@@ -14,6 +14,14 @@ class Core {
   get baseUrl(): string { return this._baseUrl; }
   set baseUrl(value: string) { this._baseUrl = value; }
 
+  fetchHeader() {
+    return {
+      headers: {
+        Accept: 'application/json;odata=verbose'
+      },
+      credentials: 'include'
+    } as any;
+  }
   setup(url?: string): Promise<ISpCoreResult> {
     return new Promise((resolve, reject) => {
       if (this._baseUrl.trim().length === 0 && url == null) {

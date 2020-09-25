@@ -1,7 +1,7 @@
 import { SpCore } from '../setup/core-services-setup.service';
 import { IAttachment, IAttachmentAddResult, IAttachmentFileInfo, IAttachmentInfo } from '@pnp/sp/attachments';
 import { IAttachmentBlob, IAttachmentData, IAttachmentMultipleBlobs, IListDatabaseResults, ItemAddResult } from './core-services-list-items.interface';
-import { AttachmentIcon } from 'gl-w-frontend';
+import { AttachmentIcon, IComboBoxData } from 'gl-w-frontend';
 import { IItem, sp } from '@pnp/sp/presets/core';
 
 import "@pnp/sp/attachments";
@@ -29,6 +29,124 @@ class Core {
       const error = SpCore.onError(reason)
       SpCore.showErrorLog(reason);
       throw new Error(error.code.toString())
+    }
+  }
+
+  /**
+   * Retrieve a search list based on fields from external sharepoint, filter and ordering
+   * @param listName
+   * @param fieldsArray
+   * @param baseUrl: Necessary to gather data from another url.
+   * @param top: Retrieve the number of first n items.
+   */
+  async retrieveExternal(listName: string, fieldsArray: string[] = [], baseUrl: string, top: number = 0): Promise<any[]> {
+    const fields: string = this.fieldsToStringArray(fieldsArray);
+
+    try {
+      const listUrl: string = encodeURI(`${baseUrl}/_api/web/lists/GetByTitle('${listName}')?$select=ItemCount`);
+
+      let count: number = top;
+
+      if (top == null || top === 0) {
+        const result = await fetch(listUrl, SpCore.fetchHeader());
+        const list = await result.json();
+        count = await list.d.ItemCount;
+      }
+
+      const itemsUrl: string = encodeURI(`${baseUrl}/_api/web/lists/GetByTitle('${listName}')/items?$select=${fields}&$top=${count}`);
+      const resultItems = await fetch(itemsUrl, SpCore.fetchHeader());
+      const fetchItems = await resultItems.json();
+      return fetchItems.d.results;
+    } catch (reason) {
+      SpCore.showErrorLog(reason);
+      return [];
+    }
+  }
+
+  /**
+   * Retrieve a single search list item based on fields from external sharepoint, filter and ordering
+   * @param id
+   * @param listName
+   * @param fieldsArray
+   * @param baseUrl: Necessary to gather data from another url.
+   */
+  async retrieveExternalSingle(id: number, listName: string, fieldsArray: string[] = [], baseUrl: string): Promise<any[]> {
+    const fields: string = this.fieldsToStringArray(fieldsArray);
+
+    try {
+      const itemsUrl: string = encodeURI(`${baseUrl}/_api/web/lists/GetByTitle('${listName}')/items(${id})?$select=${fields}`);
+      const resultItems = await fetch(itemsUrl, SpCore.fetchHeader());
+      const fetchItems = await resultItems.json();
+      return fetchItems.d;
+    } catch (reason) {
+      SpCore.showErrorLog(reason);
+      return [];
+    }
+  }
+
+  /**
+   * Retrieve a search list based on fields from external sharepoint, filter and ordering
+   * @param listName
+   * @param baseUrl: Necessary to gather data from another url.
+   * @param valueField: Value of combobox.
+   * @param textField: Inner value of combobox.
+   */
+  async retrieveForCombobox(listName: string, baseUrl: string, valueField: string = 'value', textField: string = 'text'): Promise<IComboBoxData[]> {
+    try {
+      const items: IComboBoxData[] = [];
+
+      if (listName != null && listName.length > 0) {
+        const fields: string[] = [valueField, textField];
+        try {
+          const itemsResult = await this.retrieve(listName, fields, baseUrl);
+          for (const item of itemsResult) {
+            items.push({
+              text: item[textField],
+              value: item[valueField].toString()
+            });
+          }
+          return items;
+        } catch (reason) {
+          SpCore.showErrorLog(reason);
+          return reason;
+        }
+      } else {
+        return [];
+      }
+
+    } catch (reason) {
+      SpCore.showErrorLog(reason);
+      return reason;
+    }
+  }
+
+
+  /**
+   * Retrieve a search list based on fields from external sharepoint, filter and ordering
+   * @param listName
+   * @param baseUrl: Necessary to gather data from another url.
+   * @param valueField: Value of combobox.
+   * @param textField: Inner value of combobox.
+   * @param top: Retrieve the number of first n items.
+   */
+  async retrieveExternalForCombobox(listName: string, baseUrl: string, valueField: string = 'value', textField: string = 'text', top: number = 0): Promise<IComboBoxData[]> {
+    try {
+      const fields = [valueField, textField];
+      const listItems = await this.retrieveExternal(listName, fields, baseUrl, top);
+
+      const comboBox: IComboBoxData[] = [];
+      for (const item of listItems) {
+        comboBox.push({
+          text: item[textField],
+          value: item[valueField].toString()
+        })
+      }
+
+      return comboBox;
+
+    } catch (reason) {
+      SpCore.showErrorLog(reason);
+      return reason;
     }
   }
 

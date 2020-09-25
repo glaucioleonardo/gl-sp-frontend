@@ -1,10 +1,15 @@
 import { IAttachment, IAttachmentAddResult, IAttachmentFileInfo, IAttachmentInfo } from '@pnp/sp/attachments';
 import { IAttachmentBlob, IAttachmentData, IAttachmentMultipleBlobs, IListDatabaseResults, ItemAddResult } from './core-services-list-items.interface';
+import { IComboBoxData } from 'gl-w-frontend';
 import "@pnp/sp/attachments";
 import { ITypedHash } from '@pnp/common';
 declare class Core {
     fieldsToStringArray(fields: string[]): string;
     retrieve(listName: string, fieldsArray?: string[], baseUrl?: string): Promise<any[]>;
+    retrieveExternal(listName: string, fieldsArray: string[] | undefined, baseUrl: string, top?: number): Promise<any[]>;
+    retrieveExternalSingle(id: number, listName: string, fieldsArray: string[] | undefined, baseUrl: string): Promise<any[]>;
+    retrieveForCombobox(listName: string, baseUrl: string, valueField?: string, textField?: string): Promise<IComboBoxData[]>;
+    retrieveExternalForCombobox(listName: string, baseUrl: string, valueField?: string, textField?: string, top?: number): Promise<IComboBoxData[]>;
     retrieveSingle(listItemId: number, listName: string, fieldsArray?: string[], baseUrl?: string): Promise<any>;
     recycle(listItemId: number, listName: string, baseUrl?: string): Promise<unknown>;
     delete(listItemId: number, listName: string, baseUrl?: string): Promise<unknown>;

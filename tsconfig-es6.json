@@ -2,7 +2,7 @@
   "extends": "./tsconfig.json",
   "baseUrl": "src/lib/scripts/",
   "compilerOptions": {
-    "target": "es6",
+    "target": "ES2015",
     "module": "ESNext",
     "outDir": "lib",
     "strict": true,

@@ -4,6 +4,9 @@ import { sp } from '@pnp/sp';
 import "@pnp/sp/webs";
 import "@pnp/sp/site-users/web";
 import "@pnp/sp/site-groups/web";
+import '@pnp/sp/sputilities';
+import { ISiteUserInfo } from '@pnp/sp/site-users/types';
+import { IEmailProperties } from '@pnp/sp/sputilities';
 
 class Core {
   async currentUser(baseUrl: string): Promise<ISpCurrentUser> {
@@ -16,9 +19,43 @@ class Core {
       throw new Error (`Error code: ${error.code}.\nError message: ${error.message}.\nError description: ${error.description}`);
     }
   }
-}
 
+  async userData(baseUrl: string, id: number): Promise<ISiteUserInfo> {
+    const base = baseUrl == null ? SpCore.baseUrl : baseUrl;
+
+    try {
+      return await sp.configure(SpCore.config, base).web.siteUsers.getById(id).get();
+    } catch (reason) {
+      const error = SpCore.onError(reason);
+      throw new Error (`Error code: ${error.code}.\nError message: ${error.message}.\nError description: ${error.description}`);
+    }
+  }
+}
 export const SpUserCore = new Core();
+
+class Email {
+  async send(baseUrl: string, subject: string, to: string[], body: string): Promise<boolean> {
+    const base = baseUrl == null ? SpCore.baseUrl : baseUrl;
+
+    const emailProps: IEmailProperties = {
+      AdditionalHeaders: {
+        'content-type': 'text/html'
+      },
+      Subject: subject,
+      To: to,
+      Body: body
+    };
+
+    try {
+      await sp.configure(SpCore.config, base).utility.sendEmail(emailProps);
+      return true;
+    } catch (reason) {
+      const error = SpCore.onError(reason);
+      throw new Error (`Error code: ${error.code}.\nError message: ${error.message}.\nError description: ${error.description}`);
+    }
+  }
+}
+export const SpUserEmail = new Email();
 
 class Permissions {
   async isAdmin(baseUrl: string): Promise<boolean> {
@@ -46,5 +83,4 @@ class Permissions {
     return await this.isInGroup(groupName, currentUser.Email, base);
   }
 }
-
 export const SpUserPermissions = new Permissions();

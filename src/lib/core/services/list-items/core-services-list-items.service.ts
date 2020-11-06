@@ -484,7 +484,6 @@ class Attachment {
 }
 export const ListItemsAttachment = new Attachment();
 
-
 class Search {
   /**
    * Retrieve a search list based on fields, filter and ordering

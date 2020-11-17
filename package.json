@@ -1,6 +1,6 @@
 {
   "name": "gl-sp-frontend",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "description": "Common code for SharePoint 2013/2016 using among web front-end development such as ES6+ and TypeScript",
   "main": "lib/bundle.js",
   "types": "lib/bundle.d.ts",
@@ -15,7 +15,7 @@
     "build-index": "tsc -p ./tsconfig-index.json",
     "build-es6": "tsc -p ./tsconfig-es6.json",
     "build": "npm run build-es6 && npm run build-index",
-    "glw": "cd D:\\_local-development\\_glaucio\\packages\\gl-w-frontend && npm run production && cd D:\\_local-development\\_glaucio\\packages\\gl-sp-frontend && npm pack D:\\_local-development\\_glaucio\\packages\\gl-w-frontend && npm i --prefer-offline ./gl-w-frontend-2.0.0.tgz && shx rm -rf ./gl-w-frontend-2.0.0.tgz"
+    "glw": "cd D:\\_local-development\\_glaucio\\packages\\gl-w-frontend && npm run production && cd D:\\_local-development\\_glaucio\\packages\\gl-sp-frontend && npm pack D:\\_local-development\\_glaucio\\packages\\gl-w-frontend && npm i --prefer-offline ./gl-w-frontend-2.1.4.tgz && shx rm -rf ./gl-w-frontend-2.1.4.tgz"
   },
   "repository": {
     "type": "git",
@@ -37,19 +37,18 @@
   "homepage": "https://www.glauciosantana.com",
   "bugs": "https://github.com/glaucioleonardo/gl-sp-frontend/issues",
   "dependencies": {
-    "@pnp/graph": "^2.0.8",
-    "@pnp/sp": "^2.0.8",
-    "gl-w-frontend": "^2.1.3"
+    "@pnp/sp": "^2.0.12",
+    "gl-w-frontend": "^2.1.4"
   },
   "devDependencies": {
-    "@types/node": "^14.0.5",
+    "@types/node": "^14.14.7",
     "@types/xlsx-populate": "git+https://github.com/JanLoebel/types-xlsx-populate.git",
-    "@typescript-eslint/eslint-plugin": "^3.1.0",
-    "@typescript-eslint/eslint-plugin-tslint": "^3.1.0",
-    "@typescript-eslint/parser": "^3.1.0",
-    "eslint": "^7.1.0",
-    "shx": "^0.3.2",
-    "tslint": "^5.20.1",
-    "typescript": "~3.7.5"
+    "@typescript-eslint/eslint-plugin": "^4.8.1",
+    "@typescript-eslint/eslint-plugin-tslint": "^4.8.1",
+    "@typescript-eslint/parser": "^4.8.1",
+    "eslint": "^7.13.0",
+    "shx": "^0.3.3",
+    "tslint": "^6.1.3",
+    "typescript": "^4.0.5"
   }
 }

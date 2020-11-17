@@ -7,6 +7,8 @@ import "@pnp/sp/site-groups/web";
 import '@pnp/sp/sputilities';
 import { ISiteUserInfo } from '@pnp/sp/site-users/types';
 import { IEmailProperties } from '@pnp/sp/sputilities';
+import { IUserList, TUserListField } from './core-services-user.interface';
+import { ArraySort, IComboBoxData } from 'gl-w-frontend';
 
 class Core {
   async currentUser(baseUrl: string): Promise<ISpCurrentUser> {
@@ -29,6 +31,29 @@ class Core {
       const error = SpCore.onError(reason);
       throw new Error (`Error code: ${error.code}.\nError message: ${error.message}.\nError description: ${error.description}`);
     }
+  }
+
+  async usersList(base: string, hasEmail: boolean = true): Promise<IUserList[]> {
+    let users = await sp.configure(SpCore.config, base).web.siteUsers.get() as IUserList[];
+    if (hasEmail) {
+      users = users.filter(x => x.Email.length > 0);
+      users = await ArraySort.byKey(users, 'Title', true);
+    }
+
+    return users;
+  }
+  async usersListCombobox(base: string, valueField: TUserListField, textField: TUserListField): Promise<IComboBoxData[]> {
+    const users = await this.usersList(base, true);
+    const list: IComboBoxData[] = [];
+
+    for (const user of users) {
+      list.push({
+        value: user[valueField].toString(),
+        text: user[textField].toString()
+      });
+    }
+
+    return list;
   }
 }
 export const SpUserCore = new Core();

@@ -1,6 +1,6 @@
 {
   "name": "gl-sp-frontend",
-  "version": "2.3.7",
+  "version": "2.3.8",
   "description": "Common code for SharePoint 2013/2016 using among web front-end development such as ES6+ and TypeScript",
   "main": "lib/bundle.js",
   "types": "lib/bundle.d.ts",
@@ -15,7 +15,7 @@
     "build-index": "tsc -p ./tsconfig-index.json",
     "build-es6": "tsc -p ./tsconfig-es6.json",
     "build": "npm run build-es6 && npm run build-index",
-    "glw": "cd D:\\_local-development\\_glaucio\\packages\\gl-w-frontend && npm run production && cd D:\\_local-development\\_glaucio\\packages\\gl-sp-frontend && npm pack D:\\_local-development\\_glaucio\\packages\\gl-w-frontend && npm i --prefer-offline ./gl-w-frontend-2.1.4.tgz && shx rm -rf ./gl-w-frontend-2.1.4.tgz"
+    "glw": "cd D:\\_local-development\\_glaucio\\packages\\gl-w-frontend && npm run production && cd D:\\_local-development\\_glaucio\\packages\\gl-sp-frontend && npm pack D:\\_local-development\\_glaucio\\packages\\gl-w-frontend && npm i --prefer-offline ./gl-w-frontend-2.3.0.tgz && shx rm -rf ./gl-w-frontend-2.3.0.tgz"
   },
   "repository": {
     "type": "git",
@@ -38,7 +38,7 @@
   "bugs": "https://github.com/glaucioleonardo/gl-sp-frontend/issues",
   "dependencies": {
     "@pnp/sp": "^2.1.1",
-    "gl-w-frontend": "^2.2.1"
+    "gl-w-frontend": "^2.3.0"
   },
   "devDependencies": {
     "@types/node": "^14.14.22",

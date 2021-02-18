@@ -93,8 +93,8 @@ class Permissions {
     const base = baseUrl == null ? SpCore.baseUrl : baseUrl;
 
     try {
-      const user: ISpCurrentUser = await sp.configure(SpCore.config, base).web.siteGroups.getByName(groupName).users.getByEmail(userEmail).get();
-      return user.Email != null && user.Email.length > 0;
+      const user: ISpCurrentUser[] = await sp.configure(SpCore.config, base).web.siteGroups.getByName(groupName).users.get();
+      return user.filter(x => x.Email === userEmail).length > 0;
     } catch (reason) {
       const error = SpCore.onError(reason);
       throw new Error (`Error code: ${error.code}.\nError message: ${error.message}.\nError description: ${error.description}`);

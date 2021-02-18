@@ -1,6 +1,6 @@
 {
   "name": "gl-sp-frontend",
-  "version": "2.3.8",
+  "version": "2.3.9",
   "description": "Common code for SharePoint 2013/2016 using among web front-end development such as ES6+ and TypeScript",
   "main": "lib/bundle.js",
   "types": "lib/bundle.d.ts",

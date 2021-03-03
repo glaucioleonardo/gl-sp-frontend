@@ -1,7 +1,7 @@
 import { SpCore } from '../setup/core-services-setup.service';
 import { IAttachment, IAttachmentAddResult, IAttachmentFileInfo, IAttachmentInfo } from '@pnp/sp/attachments';
 import { IAttachmentBlob, IAttachmentData, IAttachmentMultipleBlobs, IListDatabaseResults, ItemAddResult } from './core-services-list-items.interface';
-import { AttachmentIcon, IComboBoxData } from 'gl-w-frontend';
+import { ArrayRemove, AttachmentIcon, IComboBoxData } from 'gl-w-frontend';
 import { IItem, sp } from '@pnp/sp/presets/core';
 
 import "@pnp/sp/attachments";
@@ -192,6 +192,33 @@ class Core {
   }
 
   /**
+   * Move duplicated items to recycle bin. The user will be able to restore the information.
+   * @param listName
+   * @param field The comparison field
+   * @param baseUrl (optional) In case it is necessary to gather data from another url.
+   */
+  async recycleDuplicated(listName: string, field: string,  baseUrl?: string): Promise<any[]> {
+    const base = baseUrl == null ? SpCore.baseUrl : baseUrl;
+
+    try {
+      const data = await this.retrieve(listName, ['Id', field ], base);
+      const duplicates = await ArrayRemove.notDuplicatedByKey(data, field, field, true);
+
+      for (const duplicate of duplicates) {
+        const items = data.filter(x => x[field] === duplicate);
+        for (let i = 1; i < items.length; i++) {
+          await this.recycle(items[i].Id, listName, base);
+        }
+      }
+
+      return duplicates;
+    } catch (reason) {
+      SpCore.showErrorLog(reason);
+      return [];
+    }
+  }
+
+  /**
    * Delete items permanently. The user will not be able to restore the information.
    * @param listItemId
    * @param listName
@@ -209,6 +236,33 @@ class Core {
         reject(error)
       });
     });
+  }
+
+  /**
+   * Delete duplicated items permanently. The user will be able to restore the information.
+   * @param listName
+   * @param field The comparison field
+   * @param baseUrl (optional) In case it is necessary to gather data from another url.
+   */
+  async deleteDuplicated(listName: string, field: string,  baseUrl?: string): Promise<any[]> {
+    const base = baseUrl == null ? SpCore.baseUrl : baseUrl;
+
+    try {
+      const data = await this.retrieve(listName, ['Id', field ], base);
+      const duplicates = await ArrayRemove.notDuplicatedByKey(data, field, field, true);
+
+      for (const duplicate of duplicates) {
+        const items = data.filter(x => x[field] === duplicate);
+        for (let i = 1; i < items.length; i++) {
+          await this.delete(items[i].Id, listName, base);
+        }
+      }
+
+      return duplicates;
+    } catch (reason) {
+      SpCore.showErrorLog(reason);
+      return [];
+    }
   }
 
   /**

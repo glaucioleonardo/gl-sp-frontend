@@ -12,7 +12,9 @@ declare class Core {
     retrieveExternalForCombobox(listName: string, baseUrl: string, valueField?: string, textField?: string, top?: number): Promise<IComboBoxData[]>;
     retrieveSingle(listItemId: number, listName: string, fieldsArray?: string[], baseUrl?: string): Promise<any>;
     recycle(listItemId: number, listName: string, baseUrl?: string): Promise<unknown>;
+    recycleDuplicated(listName: string, field: string, baseUrl?: string): Promise<any[]>;
     delete(listItemId: number, listName: string, baseUrl?: string): Promise<unknown>;
+    deleteDuplicated(listName: string, field: string, baseUrl?: string): Promise<any[]>;
     add(listName: string, data: ITypedHash<any>, baseUrl?: string): Promise<ItemAddResult>;
     update(listItemId: number, listName: string, data: ITypedHash<any>, baseUrl?: string): Promise<ItemAddResult>;
 }

@@ -6,6 +6,7 @@ import { IItem, sp } from '@pnp/sp/presets/core';
 
 import "@pnp/sp/attachments";
 import { ITypedHash } from '@pnp/common';
+import { ISpCoreResult } from '../setup/core-services-setup.interface';
 
 class Core {
 
@@ -48,13 +49,13 @@ class Core {
       let count: number = top;
 
       if (top == null || top === 0) {
-        const result = await fetch(listUrl, SpCore.fetchHeader());
+        const result = await fetch(listUrl, await SpCore.fetchHeader());
         const list = await result.json();
         count = await list.d.ItemCount;
       }
 
       const itemsUrl: string = encodeURI(`${baseUrl}/_api/web/lists/GetByTitle('${listName}')/items?$select=${fields}&$top=${count}`);
-      const resultItems = await fetch(itemsUrl, SpCore.fetchHeader());
+      const resultItems = await fetch(itemsUrl, await SpCore.fetchHeader());
       const fetchItems = await resultItems.json();
       return fetchItems.d.results;
     } catch (reason) {
@@ -75,7 +76,7 @@ class Core {
 
     try {
       const itemsUrl: string = encodeURI(`${baseUrl}/_api/web/lists/GetByTitle('${listName}')/items(${id})?$select=${fields}`);
-      const resultItems = await fetch(itemsUrl, SpCore.fetchHeader());
+      const resultItems = await fetch(itemsUrl, await SpCore.fetchHeader());
       const fetchItems = await resultItems.json();
       return fetchItems.d;
     } catch (reason) {
@@ -271,17 +272,15 @@ class Core {
    * @param data
    * @param baseUrl (optional) In case it is necessary to gather data from another url.
    */
-  add(listName: string, data:  ITypedHash<any>, baseUrl?: string): Promise<ItemAddResult> {
+  async add(listName: string, data:  ITypedHash<any>, baseUrl?: string): Promise<ItemAddResult | ISpCoreResult> {
     const base = baseUrl == null ? SpCore.baseUrl : baseUrl;
 
-    return new Promise((resolve, reject) => {
-      sp.configure(SpCore.config, base).web.lists.getByTitle(listName).items.add(data)
-      .then((iar: ItemAddResult) => { resolve(iar); })
-      .catch(reason => {
-        const error = SpCore.showErrorLog(reason);
-        reject(error)
-      })
-    })
+    try {
+      return await sp.configure(SpCore.config, base).web.lists.getByTitle(listName).items.add(data);
+    } catch (reason) {
+      SpCore.showErrorLog(reason)
+      throw new Error(reason)
+    }
   }
 
   /**

@@ -8,8 +8,10 @@ declare class Core {
     get jsonHeader(): string;
     get baseUrl(): string;
     set baseUrl(value: string);
-    fetchHeader(): any;
+    fetchHeader(): Promise<any>;
+    getDigest(url: string): Promise<any>;
     setup(url?: string): Promise<ISpCoreResult>;
+    private setupDigest;
     onError(reason: ISpCoreResult): ISpCoreResult;
     showErrorLog(reason: any): void;
 }

@@ -14,6 +14,7 @@ declare class Core {
     recycle(listName: string, baseUrl?: string): Promise<ISpCoreResult>;
     recreate(listName: string, baseUrl?: string, fields?: Partial<IFieldInfo>[], titleRequired?: boolean, properties?: IListProperties): Promise<ISpCoreResult>;
     addFields(listName: string, fields: Partial<IFieldInfo>[], baseUrl?: string): Promise<ISpCoreResult>;
+    rename(listName: string, name: string, overwrite?: boolean, baseUrl?: string): Promise<ISpCoreResult>;
 }
 export declare const ListsCore: Core;
 export {};

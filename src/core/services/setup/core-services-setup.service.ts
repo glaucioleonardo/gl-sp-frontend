@@ -1,6 +1,7 @@
 import { sp } from "@pnp/sp";
 import { ISpCoreResult } from './core-services-setup.interface';
 import { IConfigOptions } from '@pnp/common';
+import { IContextInfo } from '@pnp/sp/sites';
 
 class Core {
   private _baseUrl = '';
@@ -14,24 +15,70 @@ class Core {
   get baseUrl(): string { return this._baseUrl; }
   set baseUrl(value: string) { this._baseUrl = value; }
 
-  fetchHeader() {
+  async fetchHeader() {
+    const digest = await this.getDigest(this._baseUrl)
+
     return {
       headers: {
-        Accept: 'application/json;odata=verbose'
+        Accept: 'application/json;odata=verbose',
+        'X-RequestDigest': digest
       },
       credentials: 'include'
     } as any;
   }
+
+  async getDigest(url: string): Promise<any> {
+    const context: IContextInfo = await sp.configure(this.config, url).site.getContextInfo();
+    return  context.FormDigestValue;
+  }
+
   setup(url?: string): Promise<ISpCoreResult> {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       if (this._baseUrl.trim().length === 0 && url == null) {
         reject(this.onError({ code: 405, description: null, message: null }));
       } else {
+        this._baseUrl = url as string;
+
         try {
           sp.setup({
             sp: {
               headers: {
-                Accept: this._jsonHeader
+                Accept: this._jsonHeader,
+                // 'X-RequestDigest': digest
+              },
+              baseUrl: url == null ? this._baseUrl : url
+            }
+          })
+
+          this.baseUrl = url == null ? this._baseUrl : url;
+
+          const base: string = url == null ? this._baseUrl : url;
+          await this.setupDigest(base);
+
+          resolve({
+            code: 200,
+            description: 'The setup has been configured correctly.',
+          });
+        } catch (reason) {
+          reject(this.onError(reason));
+        }
+      }
+    });
+  }
+  private setupDigest(url: string): Promise<ISpCoreResult> {
+    return new Promise(async (resolve, reject) => {
+      if (this._baseUrl.trim().length === 0 && url == null) {
+        reject(this.onError({ code: 405, description: null, message: null }));
+      } else {
+        this._baseUrl = url;
+        const digest = await this.getDigest(url as string);
+
+        try {
+          sp.setup({
+            sp: {
+              headers: {
+                Accept: this._jsonHeader,
+                'X-RequestDigest': digest
               },
               baseUrl: url == null ? this._baseUrl : url
             }

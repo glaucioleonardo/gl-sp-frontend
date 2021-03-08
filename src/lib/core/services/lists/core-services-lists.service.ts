@@ -215,6 +215,47 @@ class Core {
       };
     }
   }
+
+  /**
+   * Recover list from recycle bin
+   */
+  async rename(listName: string, name: string, overwrite: boolean = true, baseUrl?: string): Promise<ISpCoreResult> {
+    const base = baseUrl == null ? SpCore.baseUrl : baseUrl;
+
+    try {
+      const exists: boolean = await this.exists(name, base);
+
+      if (exists && overwrite) {
+        await this.recycle(listName, base);
+        await sp.configure(SpCore.config, base).web.lists.getByTitle(listName).update({
+          Title: `_backup-${listName}`
+        });
+
+        return {
+          code: 200,
+          description: 'Success!',
+          message: 'The current list has been renamed successfully.'
+        };
+      } else {
+        if (exists && !overwrite) {
+          return {
+            code: 405,
+            description: 'Not allowed!',
+            message: 'The current list exists and was not allowed to overwrite it.'
+          };
+        } else {
+          return {
+            code: 404,
+            message: 'Error making HttpClient request in queryable: [404] Not Found',
+            description: 'List not found',
+          };
+        }
+      }
+    } catch (reason) {
+      SpCore.showErrorLog(reason);
+      throw new Error(reason)
+    }
+  }
 }
 export const ListsCore = new Core();
 

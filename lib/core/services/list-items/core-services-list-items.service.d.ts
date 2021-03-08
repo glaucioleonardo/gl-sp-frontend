@@ -3,6 +3,7 @@ import { IAttachmentBlob, IAttachmentData, IAttachmentMultipleBlobs, IListDataba
 import { IComboBoxData } from 'gl-w-frontend';
 import "@pnp/sp/attachments";
 import { ITypedHash } from '@pnp/common';
+import { ISpCoreResult } from '../setup/core-services-setup.interface';
 declare class Core {
     fieldsToStringArray(fields: string[]): string;
     retrieve(listName: string, fieldsArray?: string[], baseUrl?: string): Promise<any[]>;
@@ -15,7 +16,7 @@ declare class Core {
     recycleDuplicated(listName: string, field: string, baseUrl?: string): Promise<any[]>;
     delete(listItemId: number, listName: string, baseUrl?: string): Promise<unknown>;
     deleteDuplicated(listName: string, field: string, baseUrl?: string): Promise<any[]>;
-    add(listName: string, data: ITypedHash<any>, baseUrl?: string): Promise<ItemAddResult>;
+    add(listName: string, data: ITypedHash<any>, baseUrl?: string): Promise<ItemAddResult | ISpCoreResult>;
     update(listItemId: number, listName: string, data: ITypedHash<any>, baseUrl?: string): Promise<ItemAddResult>;
 }
 export declare const ListItemsCore: Core;

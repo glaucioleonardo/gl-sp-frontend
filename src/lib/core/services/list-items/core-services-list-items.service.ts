@@ -1,5 +1,5 @@
 import { SpCore } from '../setup/core-services-setup.service';
-import { IAttachment, IAttachmentAddResult, IAttachmentFileInfo, IAttachmentInfo } from '@pnp/sp/attachments';
+import { IAttachment, IAttachmentAddResult, IAttachmentFileInfo, IAttachmentInfo } from '@pnp/sp/attachments/index';
 import { IAttachmentBlob, IAttachmentData, IAttachmentMultipleBlobs, IListDatabaseResults, ItemAddResult } from './core-services-list-items.interface';
 import { ArrayRemove, AttachmentIcon, IComboBoxData } from 'gl-w-frontend';
 import { IItem, sp } from '@pnp/sp/presets/core';

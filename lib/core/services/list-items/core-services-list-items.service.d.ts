@@ -1,4 +1,4 @@
-import { IAttachment, IAttachmentAddResult, IAttachmentFileInfo, IAttachmentInfo } from '@pnp/sp/attachments';
+import { IAttachment, IAttachmentAddResult, IAttachmentFileInfo, IAttachmentInfo } from '@pnp/sp/attachments/index';
 import { IAttachmentBlob, IAttachmentData, IAttachmentMultipleBlobs, IListDatabaseResults, ItemAddResult } from './core-services-list-items.interface';
 import { IComboBoxData } from 'gl-w-frontend';
 import "@pnp/sp/attachments";

@@ -1,5 +1,5 @@
 import { IDeferred, IMetadata } from '../../../bundle';
-import { IAttachment } from '@pnp/sp/attachments';
+import { IAttachment } from '@pnp/sp/attachments/index';
 import { IItem } from '@pnp/sp/items';
 export interface IAttachmentServerData {
     __metadata: IAttachmentMetadata;

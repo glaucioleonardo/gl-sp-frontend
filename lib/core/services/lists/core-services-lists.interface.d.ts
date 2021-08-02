@@ -1,4 +1,4 @@
-import { FieldTypes } from '@pnp/sp/fields/types';
+import { FieldTypes } from '@pnp/sp/fields/index';
 export interface IListProperties {
     AllowContentTypes: boolean;
     BaseTemplate: number;

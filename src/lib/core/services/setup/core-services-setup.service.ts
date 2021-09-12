@@ -126,11 +126,25 @@ class Core {
     }
   }
 
-  showErrorLog(reason: any) {
+  showErrorLog(reason: any): string {
     const error = SpCore.onError(reason);
-    console.error(`Error code: ${error.code}`);
-    if (error.description != null) { console.error(`Error description: ${error.description}`); }
-    if (error.message) { console.error(`Error message: ${error.message}`); }
+    let errorMessage: string = `Error code: ${error.code}`;
+
+    console.error(errorMessage);
+
+    if (error.description != null) {
+      errorMessage = `Error description: ${error.description}`;
+      console.error(errorMessage);
+      return errorMessage;
+    }
+
+    if (error.message) {
+      errorMessage = `Error message: ${error.message}`;
+      console.error(errorMessage);
+      return errorMessage;
+    }
+
+    return errorMessage;
   }
 }
 

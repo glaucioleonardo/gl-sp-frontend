@@ -13,7 +13,7 @@ declare class Core {
     setup(url?: string): Promise<ISpCoreResult>;
     private setupDigest;
     onError(reason: ISpCoreResult): ISpCoreResult;
-    showErrorLog(reason: any): void;
+    showErrorLog(reason: any): string;
 }
 export declare const SpCore: Core;
 export {};

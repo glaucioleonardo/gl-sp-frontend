@@ -1,6 +1,6 @@
 {
   "name": "gl-sp-frontend",
-  "version": "2.4.3",
+  "version": "2.4.4",
   "description": "Common code for SharePoint 2013/2016 using among web front-end development such as ES6+ and TypeScript",
   "main": "lib/bundle.js",
   "types": "lib/bundle.d.ts",
@@ -37,15 +37,15 @@
   "homepage": "https://www.glauciosantana.com",
   "bugs": "https://github.com/glaucioleonardo/gl-sp-frontend/issues",
   "dependencies": {
-    "@pnp/sp": "^2.7.0",
-    "gl-w-frontend": "^4.1.6"
+    "@pnp/sp": "^2.8.0",
+    "gl-w-frontend": "^5.0.0"
   },
   "devDependencies": {
-    "@types/node": "^16.4.11",
+    "@types/node": "^16.9.1",
     "@types/xlsx-populate": "git+https://github.com/JanLoebel/types-xlsx-populate.git",
-    "@typescript-eslint/eslint-plugin": "^4.29.0",
-    "@typescript-eslint/eslint-plugin-tslint": "^4.29.0",
-    "@typescript-eslint/parser": "^4.29.0",
+    "@typescript-eslint/eslint-plugin": "^4.31.0",
+    "@typescript-eslint/eslint-plugin-tslint": "^4.31.0",
+    "@typescript-eslint/parser": "^4.31.0",
     "eslint": "^7.32.0",
     "shx": "^0.3.3",
     "tslint": "^6.1.3",

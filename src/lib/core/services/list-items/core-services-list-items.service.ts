@@ -1,12 +1,14 @@
 import { SpCore } from '../setup/core-services-setup.service';
 import { IAttachment, IAttachmentAddResult, IAttachmentFileInfo, IAttachmentInfo } from '@pnp/sp/attachments/index';
 import { IAttachmentBlob, IAttachmentData, IAttachmentMultipleBlobs, IListDatabaseResults, ItemAddResult } from './core-services-list-items.interface';
-import { ArrayRemove, AttachmentIcon, IComboBoxData } from 'gl-w-frontend';
 import { IItem, sp } from '@pnp/sp/presets/core';
 
 import "@pnp/sp/attachments";
 import { ITypedHash } from '@pnp/common';
 import { ISpCoreResult } from '../setup/core-services-setup.interface';
+import { IComboBoxData } from 'gl-w-combobox-frontend';
+import { ArrayRemove } from 'gl-w-array-frontend';
+import { AttachmentIcon } from 'gl-w-attachment-frontend';
 
 class Core {
 

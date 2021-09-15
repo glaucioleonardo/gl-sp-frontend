@@ -1,9 +1,9 @@
 import { IAttachment, IAttachmentAddResult, IAttachmentFileInfo, IAttachmentInfo } from '@pnp/sp/attachments/index';
 import { IAttachmentBlob, IAttachmentData, IAttachmentMultipleBlobs, IListDatabaseResults, ItemAddResult } from './core-services-list-items.interface';
-import { IComboBoxData } from 'gl-w-frontend';
 import "@pnp/sp/attachments";
 import { ITypedHash } from '@pnp/common';
 import { ISpCoreResult } from '../setup/core-services-setup.interface';
+import { IComboBoxData } from 'gl-w-combobox-frontend';
 declare class Core {
     fieldsToStringArray(fields: string[]): string;
     retrieve(listName: string, fieldsArray?: string[], baseUrl?: string): Promise<any[]>;

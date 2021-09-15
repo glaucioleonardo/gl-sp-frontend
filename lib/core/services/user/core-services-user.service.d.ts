@@ -5,7 +5,7 @@ import "@pnp/sp/site-groups/web";
 import '@pnp/sp/sputilities';
 import { ISiteUserInfo } from '@pnp/sp/site-users/types';
 import { IUserList, TUserListField } from './core-services-user.interface';
-import { IComboBoxData } from 'gl-w-frontend';
+import { IComboBoxData } from 'gl-w-combobox-frontend';
 declare class Core {
     currentUser(baseUrl: string): Promise<ISpCurrentUser>;
     userData(baseUrl: string, id: number): Promise<ISiteUserInfo>;

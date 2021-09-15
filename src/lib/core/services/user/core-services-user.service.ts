@@ -8,7 +8,8 @@ import '@pnp/sp/sputilities';
 import { ISiteUserInfo } from '@pnp/sp/site-users/types';
 import { IEmailProperties } from '@pnp/sp/sputilities';
 import { IUserList, TUserListField } from './core-services-user.interface';
-import { ArraySort, IComboBoxData } from 'gl-w-frontend';
+import { ArraySort } from 'gl-w-array-frontend';
+import { IComboBoxData } from 'gl-w-combobox-frontend';
 
 class Core {
   async currentUser(baseUrl: string): Promise<ISpCurrentUser> {
